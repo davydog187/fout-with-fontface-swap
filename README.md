@@ -1,6 +1,10 @@
-# FontFace Swap
+# ~~FontFace Swap~~
 
-Achieves FOUT by loading the font under a different font family, then swapping the FontFace to the correct family. Relies on the natural waterfall of font-family definitions to fallback to the unstyled (system) font while the FontFace is loading.
+~~Achieves FOUT by loading the font under a different font family, then swapping the FontFace to the correct family. Relies on the natural waterfall of font-family definitions to fallback to the unstyled (system) font while the FontFace is loading.~~~
+
+# FontFace load().then(add())
+
+Turns out there is an easier way to do this (that we originally misinterpreted as FOIT). Just load the FontFace, then add once loaded.
 
 ## Inspiration
 
