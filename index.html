@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOUT with FontFace Swap</title>
+    <link rel="preload" href="fonts/ArchivoNarrow-Regular.ttf" as="font" type="font/ttf" crossorigin>
+
+    <style>
+    body {
+        font-size: 40px;
+        font-family: Archivo, sans-serif;
+    }
+    </style>
+    <script>
+    (function() {
+        function loadFont(name, path, options) {
+            // Preload the font under a different name to prevent FOIT
+            // (achieves FOUT since sans-serif is specified as the fallback)
+            const preload = new FontFace(name + "-preload", "url(" + path + ")", options || {})
+
+            document.fonts.add(preload);
+
+            return preload.load()
+                .then(() => {
+
+                    const font = new FontFace(name, "url(" + path + ")", options || {})
+
+                    return document.fonts.add(font);
+                });
+        }
+
+        if ("fonts" in document ) {
+            loadFont("Archivo", "fonts/ArchivoNarrow-Regular.ttf")
+            .then(() => {
+                console.log("regular loaded");
+
+                loadFont("Archivo", "fonts/ArchivoNarrow-Italic.ttf", { style: "italic" })
+                    .then(() => console.log("italic loaded"));
+            });
+        }
+    })();
+    </script>
+</head>
+<body>
+    <h1>FOUT with FontFace Swap</h1>
+    <p>This is a paragraph. <strong>This is heavier text.</strong> <em>This is emphasized text.</em> <strong><em>This is heavier and emphasized text.</em></strong></p>
+</body>
+</html>
